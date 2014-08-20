@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<jbossesb parameterReloadSecs="5"
+ xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.1.xsd"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.1.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.1.xsd">
+ <providers>
+  <http-provider name="httpProvider">
+   <http-bus busid="httpChannel"/>
+  </http-provider>
+ </providers>
+ <services>
+  <service category="Ticket"
+   description="Servcio que permite obtener un ticket en particular"
+   invmScope="GLOBAL" name="GetTicket">
+   <listeners>
+    <http-gateway busidref="httpChannel" name="httpGWGetTicket"
+     payloadAs="STRING" urlPattern="getTickets/*"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="cl.isl.poc.ticket.actions.RestUrlPaserCustomAction"
+     name="URL Parser" process="getParams">
+     <property name="pathParams" value="{oid}"/>
+    </action>
+    <action class="org.jboss.soa.esb.actions.EJBProcessor" name="Llamada EJB">
+     <property name="ejb3" value="true"/>
+     <property name="ejb-name" value="TicketManagerBean"/>
+     <property name="jndi-name" value="TicketManagerBean/remote"/>
+     <property name="initial-context-factory" value="org.jnp.interfaces.NamingContextFactory"/>
+     <property name="provider-url" value="${ejb.processor.provider.url}:${ejb.processor.provider.port}"/>
+     <property name="method" value="findTickets"/>
+     <property name="esb-out-var" value="tickets"/>
+     <property name="ejb-params">
+      <arg0 type="cl.redhat.poc.ticket.business.vo.TicketVO">filtro</arg0>
+     </property>
+    </action>
+    <action class="cl.isl.poc.ticket.actions.JSONPaserCustomAction"
+     name="Tickets to JSON" process="toJSON"/>
+   </actions>
+  </service>
+ </services>
+</jbossesb>
