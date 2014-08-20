@@ -10,7 +10,7 @@
  <services>
   <service category="Ticket"
    description="Servcio que permite obtener un ticket en particular"
-   invmScope="GLOBAL" name="GetTicket">
+   invmScope="GLOBAL" name="GetTickets">
    <listeners>
     <http-gateway busidref="httpChannel" name="httpGWGetTicket"
      payloadAs="STRING" urlPattern="getTickets/*"/>

@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class TicketVO implements Serializable{
 
-	
 	private static final long serialVersionUID = -4598568898513696901L;
 	private Long id;
 	private String asunto;
