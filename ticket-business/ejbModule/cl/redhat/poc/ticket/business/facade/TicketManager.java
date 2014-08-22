@@ -11,4 +11,6 @@ public interface TicketManager {
 
 	public List<TicketVO> findTickets(TicketVO ticket);
 	
+	public TicketVO creaTicket(TicketVO ticket);
+	
 }

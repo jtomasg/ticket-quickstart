@@ -36,5 +36,50 @@
      name="Tickets to JSON" process="toJSON"/>
    </actions>
   </service>
+  <service category="Test"
+   description="Servicio ed ejemplo para crear tickets"
+   invmScope="GLOBAL" name="CrearTicketsTest">
+   <listeners>
+    <http-gateway busidref="httpChannel" name="httpGWCreaTicketTest"
+     payloadAs="STRING" urlPattern="creaTicketTest"/>
+   </listeners>
+   <actions>
+    <action class="cl.isl.poc.ticket.actions.TestCustomAction"
+     name="Crea Ticket" process="creaTickets"/>
+    <action class="org.jboss.soa.esb.actions.routing.http.HttpRouter" name="HTTP Router Rest">
+     <property name="method" value="POST"/>
+     <property name="responseType" value="STRING"/>
+     <property name="endpointUrl" value="http://localhost:8080/ticket-esb/http/creaTicket"/>
+    </action>
+    <action class="cl.isl.poc.ticket.actions.TestCustomAction"
+     name="Genera respuesta" process="setHTMLRespuesta"/>
+   </actions>
+  </service>
+  <service category="Ticket"
+   description="Servicio que crea un ticket en base a una entrada en formato JSON"
+   invmScope="GLOBAL" name="CrearTicket">
+   <listeners>
+    <http-gateway busidref="httpChannel" name="httpGWCrearTicket"
+     payloadAs="STRING" urlPattern="creaTicket"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="cl.isl.poc.ticket.actions.TicketCustomAction"
+     name="JSON a TicketVO" process="creaTicketFromJSON"/>
+    <action class="org.jboss.soa.esb.actions.EJBProcessor" name="Llamada EJB Creacion Ticket">
+     <property name="ejb3" value="true"/>
+     <property name="ejb-name" value="TicketManagerBean"/>
+     <property name="jndi-name" value="TicketManagerBean/remote"/>
+     <property name="initial-context-factory" value="org.jnp.interfaces.NamingContextFactory"/>
+     <property name="provider-url" value="${ejb.processor.provider.url}:${ejb.processor.provider.port}"/>
+     <property name="method" value="creaTicket"/>
+     <property name="esb-out-var" value="ticketRespuesta"/>
+     <property name="ejb-params">
+      <arg0 type="cl.redhat.poc.ticket.business.vo.TicketVO">ticket</arg0>
+     </property>
+    </action>
+    <action class="cl.isl.poc.ticket.actions.TicketCustomAction"
+     name="TicketVO a JSON" process="generaTicketJSON"/>
+   </actions>
+  </service>
  </services>
 </jbossesb>

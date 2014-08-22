@@ -16,4 +16,6 @@ public interface TicketDAO {
 	 */
 	public List<TicketVO> getTicketsByParameters(TicketVO filtro);
 	
+	public TicketVO crearTicket(TicketVO ticketVO);
+	
 }

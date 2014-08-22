@@ -6,6 +6,7 @@ import java.util.Date;
 public class TicketVO implements Serializable{
 
 	private static final long serialVersionUID = -4598568898513696901L;
+	
 	private Long id;
 	private String asunto;
 	private String descripcion;
@@ -13,7 +14,9 @@ public class TicketVO implements Serializable{
     private Date fechaModificacion;
     private Long ownerID;
     private Long suportOwnerID;
-    private SistemaVO sistema;
+    private Long sistema;
+    private Long prioridad;
+    private Long estado;
     
 	public Long getId() {
 		return id;
@@ -46,12 +49,6 @@ public class TicketVO implements Serializable{
 		this.fechaModificacion = fechaModificacion;
 	}
 	
-	public SistemaVO getSistema() {
-		return sistema;
-	}
-	public void setSistema(SistemaVO sistema) {
-		this.sistema = sistema;
-	}
 	public Long getOwnerID() {
 		return ownerID;
 	}
@@ -64,7 +61,23 @@ public class TicketVO implements Serializable{
 	public void setSuportOwnerID(Long suportOwnerID) {
 		this.suportOwnerID = suportOwnerID;
 	}
-    
-    
+	public Long getSistema() {
+		return sistema;
+	}
+	public void setSistema(Long sistema) {
+		this.sistema = sistema;
+	}
+	public Long getPrioridad() {
+		return prioridad;
+	}
+	public void setPrioridad(Long prioridad) {
+		this.prioridad = prioridad;
+	}
+	public Long getEstado() {
+		return estado;
+	}
+	public void setEstado(Long estado) {
+		this.estado = estado;
+	}
     
 }

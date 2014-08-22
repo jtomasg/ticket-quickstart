@@ -27,4 +27,17 @@ public class TicketManagerBean implements TicketManager{
 		return lsTickets;
 	}
 
+	@Override
+	public TicketVO creaTicket(TicketVO ticketVO) {
+		try{
+			
+			ticketVO = ticketDAO.crearTicket(ticketVO);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			ticketVO = null;
+		}
+		return ticketVO;
+	}
+
 }

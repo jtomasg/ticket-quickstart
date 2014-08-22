@@ -1,6 +1,7 @@
 package cl.redhat.poc.ticket.business.persistence.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -8,8 +9,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import cl.redhat.poc.ticket.business.persistence.model.Estado;
+import cl.redhat.poc.ticket.business.persistence.model.Prioridad;
 import cl.redhat.poc.ticket.business.persistence.model.Ticket;
+import cl.redhat.poc.ticket.business.persistence.model.Usuario;
 import cl.redhat.poc.ticket.business.vo.TicketVO;
+import cl.redhat.poc.ticket.business.vo.UsuarioVO;
 
 @Stateless
 public class TicketDAOBean implements TicketDAO {
@@ -66,6 +71,49 @@ public class TicketDAOBean implements TicketDAO {
 		}
 		
 		return ticketVO;
+	}
+
+	@Override
+	public TicketVO crearTicket(TicketVO ticketVO) {
+		
+		try{
+			
+			Ticket ticket = ticketVOToEntity(ticketVO);
+			
+			entityManager.persist(ticket);
+			entityManager.flush();
+			
+			ticketVO = this.ticketEntityToVO(ticket);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return ticketVO;
+	}
+	
+	private Ticket ticketVOToEntity(TicketVO ticketVO){
+		Ticket ticket = null;
+		
+		if(ticketVO!=null){
+			
+			ticket = new Ticket();
+			ticket.setAsunto(ticketVO.getAsunto());
+			ticket.setDescripcion(ticketVO.getDescripcion());
+			ticket.setFechaCreacion(new Date());
+			
+			Estado estado = entityManager.find(Estado.class, ticketVO.getEstado());
+			Prioridad prioridad = entityManager.find(Prioridad.class, ticketVO.getPrioridad());
+			Usuario owner = entityManager.find(Usuario.class, ticketVO.getOwnerID());
+			
+			ticket.setEstado(estado);
+			ticket.setPrioridad(prioridad);
+			ticket.setOwner(owner);
+			
+		}else
+			System.out.println("TicketVO nulo!");
+		
+		return ticket;
 	}
 	
 }
