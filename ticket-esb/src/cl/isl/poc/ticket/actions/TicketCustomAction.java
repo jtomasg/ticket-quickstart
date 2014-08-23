@@ -2,7 +2,6 @@ package cl.isl.poc.ticket.actions;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.soa.esb.actions.annotation.Process;
-import org.jboss.soa.esb.http.HttpRequest;
 import org.jboss.soa.esb.message.Body;
 import org.jboss.soa.esb.message.Message;
 

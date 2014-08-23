@@ -14,7 +14,6 @@ import cl.redhat.poc.ticket.business.persistence.model.Prioridad;
 import cl.redhat.poc.ticket.business.persistence.model.Ticket;
 import cl.redhat.poc.ticket.business.persistence.model.Usuario;
 import cl.redhat.poc.ticket.business.vo.TicketVO;
-import cl.redhat.poc.ticket.business.vo.UsuarioVO;
 
 @Stateless
 public class TicketDAOBean implements TicketDAO {

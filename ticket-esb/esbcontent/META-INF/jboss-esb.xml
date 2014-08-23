@@ -49,7 +49,7 @@
     <action class="org.jboss.soa.esb.actions.routing.http.HttpRouter" name="HTTP Router Rest">
      <property name="method" value="POST"/>
      <property name="responseType" value="STRING"/>
-     <property name="endpointUrl" value="http://localhost:8080/ticket-esb/http/creaTicket"/>
+     <property name="endpointUrl" value="http://172.16.5.36:8080/ticket-esb/http/creaTicket"/>
     </action>
     <action class="cl.isl.poc.ticket.actions.TestCustomAction"
      name="Genera respuesta" process="setHTMLRespuesta"/>
