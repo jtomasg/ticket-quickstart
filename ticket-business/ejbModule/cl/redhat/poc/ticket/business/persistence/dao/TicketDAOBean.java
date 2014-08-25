@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -67,12 +69,15 @@ public class TicketDAOBean implements TicketDAO {
 			ticketVO.setFechaCreacion(ticket.getFechaCreacion());
 			ticketVO.setFechaModificacion(ticket.getFechaModificacion());
 			ticketVO.setId(ticket.getCaseId());
+			ticketVO.setOwnerID(ticket.getOwner().getId());
+			ticketVO.setPrioridad(ticket.getPrioridad().getId());
+			ticketVO.setEstado(ticket.getEstado().getId());
 		}
 		
 		return ticketVO;
 	}
 
-	@Override
+	
 	public TicketVO crearTicket(TicketVO ticketVO) {
 		
 		try{
@@ -101,7 +106,7 @@ public class TicketDAOBean implements TicketDAO {
 			ticket.setDescripcion(ticketVO.getDescripcion());
 			ticket.setFechaCreacion(new Date());
 			
-			Estado estado = entityManager.find(Estado.class, ticketVO.getEstado());
+			Estado estado = entityManager.getReference(Estado.class, ticketVO.getEstado());
 			Prioridad prioridad = entityManager.find(Prioridad.class, ticketVO.getPrioridad());
 			Usuario owner = entityManager.find(Usuario.class, ticketVO.getOwnerID());
 			

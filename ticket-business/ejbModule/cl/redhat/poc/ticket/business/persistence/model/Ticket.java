@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("serial")
 @Entity
@@ -40,19 +39,19 @@ public class Ticket implements Serializable {
     private Date fechaModificacion;
     
     @ManyToOne
-    @JoinColumn(name = "owner_id",referencedColumnName="id",insertable = false, updatable = false)
+    @JoinColumn(name = "owner_id",referencedColumnName="id",insertable = true, updatable = true)
     private Usuario owner;
     
     @ManyToOne
-    @JoinColumn(name = "support_owner_id",referencedColumnName="id",insertable = false, updatable = false)
+    @JoinColumn(name = "support_owner_id",referencedColumnName="id",insertable = true, updatable = true)
     private Usuario suportOwner;
     
     @ManyToOne
-    @JoinColumn(name = "estado_id",referencedColumnName="id",insertable = false, updatable = false)
+    @JoinColumn(name = "estado_id",referencedColumnName="id",insertable = true, updatable = true)
     private Estado estado;
     
     @ManyToOne
-    @JoinColumn(name = "prioridad_id",referencedColumnName="id", insertable = false, updatable = false)
+    @JoinColumn(name = "prioridad_id",referencedColumnName="id", insertable = true, updatable = true)
     private Prioridad prioridad;
     
     @OneToMany(fetch=FetchType.LAZY, mappedBy="ticket")

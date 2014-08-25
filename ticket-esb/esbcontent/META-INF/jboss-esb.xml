@@ -49,7 +49,7 @@
     <action class="org.jboss.soa.esb.actions.routing.http.HttpRouter" name="HTTP Router Rest">
      <property name="method" value="POST"/>
      <property name="responseType" value="STRING"/>
-     <property name="endpointUrl" value="http://172.16.5.36:8080/ticket-esb/http/creaTicket"/>
+     <property name="endpointUrl" value="http://${ejb.processor.provider.url}:8180/ticket-esb/http/creaTicket"/>
     </action>
     <action class="cl.isl.poc.ticket.actions.TestCustomAction"
      name="Genera respuesta" process="setHTMLRespuesta"/>
@@ -79,6 +79,34 @@
     </action>
     <action class="cl.isl.poc.ticket.actions.TicketCustomAction"
      name="TicketVO a JSON" process="generaTicketJSON"/>
+   </actions>
+  </service>
+  <service category="Ticket"
+   description="Servcio que permite obtener un usuario en particular mediante su email"
+   invmScope="GLOBAL" name="GetUsuario">
+   <listeners>
+    <http-gateway busidref="httpChannel" name="httpGWGetUsuario"
+     payloadAs="STRING" urlPattern="getUsuario/*"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="cl.isl.poc.ticket.actions.RestUrlPaserCustomAction"
+     name="URL Parser" process="getParamsUsuario">
+     <property name="pathParams" value="{email}"/>
+    </action>
+    <action class="org.jboss.soa.esb.actions.EJBProcessor" name="Llamada EJB">
+     <property name="ejb3" value="true"/>
+     <property name="ejb-name" value="UsuarioManagerBean"/>
+     <property name="jndi-name" value="UsuarioManagerBean/remote"/>
+     <property name="initial-context-factory" value="org.jnp.interfaces.NamingContextFactory"/>
+     <property name="provider-url" value="${ejb.processor.provider.url}:${ejb.processor.provider.port}"/>
+     <property name="method" value="getUsuarioPorEmail"/>
+     <property name="esb-out-var" value="usuarioVO"/>
+     <property name="ejb-params">
+      <arg0 type="java.lang.String">email</arg0>
+     </property>
+    </action>
+    <action class="cl.isl.poc.ticket.actions.JSONPaserCustomAction"
+     name="Usuario to JSON" process="usuarioToJSON"/>
    </actions>
   </service>
  </services>
