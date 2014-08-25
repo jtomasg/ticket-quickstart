@@ -1,4 +1,4 @@
-package cl.redhat.poc.ticket.business.vo;
+package cl.redhat.poc.ticket.web.vo;
 
 import java.io.Serializable;
 

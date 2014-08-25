@@ -33,6 +33,9 @@ public class Usuario implements Serializable {
     
     @Column(nullable=false)
     private String telefono;
+    
+    @Column(nullable=false)
+    private String role;
 
 	public Long getId() {
 		return id;
@@ -73,7 +76,13 @@ public class Usuario implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-    
-    
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+    
 }
