@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import cl.redhat.poc.ticket.business.persistence.dao.TicketDAO;
-import cl.redhat.poc.ticket.business.vo.TicketVO;
+import cl.redhat.poc.ticket.model.vo.TicketVO;
 
 @Stateless
 public class TicketManagerBean implements TicketManager{

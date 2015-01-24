@@ -13,7 +13,7 @@
    invmScope="GLOBAL" name="GetTickets">
    <listeners>
     <http-gateway busidref="httpChannel" name="httpGWGetTicket"
-     payloadAs="STRING" urlPattern="getTickets/*"/>
+     payloadAs="STRING" urlPattern="tickets/*"/>
    </listeners>
    <actions mep="RequestResponse">
     <action class="cl.isl.poc.ticket.actions.RestUrlPaserCustomAction"

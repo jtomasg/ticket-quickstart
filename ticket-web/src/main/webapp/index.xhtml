@@ -13,24 +13,32 @@
 
 		<ui:define name="body">
 
+			<h1>Sistema de Tickets!!</h1>
+
 			<h:form>
 
 				<h5>
-					#{usuarioBean.usuario.nombre} || <h:commandLink action="#{usuarioBean.logOut}" value="Logout" />
+					#{usuarioBean.usuario.nombre} ||
+					<h:commandLink action="./nuevo.xhtml" value="Nuevo" /> | 
+					<h:commandLink action="#{usuarioBean.logOut}" value="Logout" />
 				</h5>
-				
+
 
 			</h:form>
 
 			<h:form>
-				<rich:dataTable id="dataTableTickets" width="700" var="ticket"
-					value="#{ticketBean.lsTickets}"
-					onrowclick="alert('ID #{ticket.id}');">
+
+				<rich:dataTable id="dataTableTickets" style="width:100%"
+					var="ticket" value="#{ticketBean.lsTickets}"
+					 rows="10">
         
 				<f:facet name="header">
 		            <rich:columnGroup>
 		                <rich:column>
 		                    <h:outputText value="ID Caso" />
+		                </rich:column>
+							<rich:column>
+		                    <h:outputText value="Estado" />
 		                </rich:column>
 		                <rich:column>
 		                    <h:outputText value="Sistema" />
@@ -44,6 +52,9 @@
 							<rich:column>
 		                    <h:outputText value="Creado por" />
 		                </rich:column>
+							<rich:column>
+		                    <h:outputText value="Acci&oacute;n" />
+		                </rich:column>
 		            </rich:columnGroup>
 		        </f:facet>
 
@@ -51,7 +62,10 @@
 						<h:outputText value="#{ticket.id}" />
 		        </rich:column>
 					<rich:column>
-						<h:outputText value="#{ticket.sistema}" />
+						<h:outputText value="#{ticket.estado.nombre}" />
+		        </rich:column>
+					<rich:column>
+						<h:outputText value="#{ticket.sistema.nombre}" />
 		        </rich:column>
 					<rich:column>
 						<h:outputText value="#{ticket.asunto}" />
@@ -60,10 +74,15 @@
 						<h:outputText value="#{ticket.fechaCreacion.toString()}" />
 		        </rich:column>
 					<rich:column>
-						<h:outputText value="#{ticket.ownerID}" />
+						<h:outputText value="#{ticket.owner.nombre}" />
+		        </rich:column>
+					<rich:column>
+						<h:commandButton action="#{ticketBean.getDetallesTicket(ticket.id)}" value="Ver" />
+						<h:commandButton action="#{ticketBean.claimTicket(ticket.id, usuarioBean.usuario.id)}" value="Claim" />
 		        </rich:column>
 
 				</rich:dataTable>
+				<rich:dataScroller for="dataTableTickets" maxPages="5" />
 			</h:form>
 
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import cl.redhat.poc.ticket.business.vo.TicketVO;
+import cl.redhat.poc.ticket.model.vo.TicketVO;
 
 @Local
 public interface TicketDAO {
