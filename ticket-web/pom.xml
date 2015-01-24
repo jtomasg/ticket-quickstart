@@ -109,6 +109,12 @@
 			<artifactId>jersey-json</artifactId>
 			<version>1.9</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>cl.redhat.poc.ticket</groupId>
+			<artifactId>ticket-model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 

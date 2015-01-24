@@ -1,4 +1,4 @@
-package cl.redhat.poc.ticket.business.vo;
+package cl.redhat.poc.ticket.model.vo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,12 +12,24 @@ public class TicketVO implements Serializable{
 	private String descripcion;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private Long ownerID;
-    private Long suportOwnerID;
-    private Long sistema;
+    private UsuarioVO owner;
+    private UsuarioVO supportOwner;
+    private SistemaVO sistema;
     private Long prioridad;
-    private Long estado;
+    private EstadoVO estado;
+    private Long processID;
     
+    public TicketVO() {
+		
+	}
+    
+	public TicketVO(UsuarioVO owner, UsuarioVO supportOwner, Long processID) {
+		super();
+		this.owner = owner;
+		this.supportOwner = supportOwner;
+		this.processID = processID;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -48,36 +60,41 @@ public class TicketVO implements Serializable{
 	public void setFechaModificacion(Date fechaModificacion) {
 		this.fechaModificacion = fechaModificacion;
 	}
-	
-	public Long getOwnerID() {
-		return ownerID;
-	}
-	public void setOwnerID(Long ownerID) {
-		this.ownerID = ownerID;
-	}
-	public Long getSuportOwnerID() {
-		return suportOwnerID;
-	}
-	public void setSuportOwnerID(Long suportOwnerID) {
-		this.suportOwnerID = suportOwnerID;
-	}
-	public Long getSistema() {
-		return sistema;
-	}
-	public void setSistema(Long sistema) {
-		this.sistema = sistema;
-	}
 	public Long getPrioridad() {
 		return prioridad;
 	}
 	public void setPrioridad(Long prioridad) {
 		this.prioridad = prioridad;
 	}
-	public Long getEstado() {
+	public UsuarioVO getOwner() {
+		return owner;
+	}
+	public void setOwner(UsuarioVO owner) {
+		this.owner = owner;
+	}
+	public UsuarioVO getSupportOwner() {
+		return supportOwner;
+	}
+	public void setSupportOwner(UsuarioVO supportOwner) {
+		this.supportOwner = supportOwner;
+	}
+	public SistemaVO getSistema() {
+		return sistema;
+	}
+	public void setSistema(SistemaVO sistema) {
+		this.sistema = sistema;
+	}
+	public EstadoVO getEstado() {
 		return estado;
 	}
-	public void setEstado(Long estado) {
+	public void setEstado(EstadoVO estado) {
 		this.estado = estado;
+	}
+	public Long getProcessID() {
+		return processID;
+	}
+	public void setProcessID(Long processID) {
+		this.processID = processID;
 	}
     
 }

@@ -2,6 +2,7 @@ package cl.redhat.poc.ticket.web;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -10,17 +11,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jboss.logging.Logger;
 
+import cl.redhat.poc.ticket.model.vo.UsuarioVO;
 import cl.redhat.poc.ticket.web.util.RestClientCallUtil;
-import cl.redhat.poc.ticket.web.vo.UsuarioVO;
 
 @SuppressWarnings("serial")
 @SessionScoped
 @ManagedBean(name = "usuarioBean")
-public class UsuarioBean implements Serializable {
+public class UsuarioBean extends BaseSystemBean implements Serializable {
 
+	Logger logger = Logger.getLogger(UsuarioBean.class);
+	
 	private UsuarioVO usuario;
 
+	@PostConstruct
+	public void postContruct(){
+		super.loadDatosBase();
+	}
+	
 	public UsuarioVO getUsuario() {
 		if(usuario==null)
 			getUsuarioRest();
@@ -36,21 +45,23 @@ public class UsuarioBean implements Serializable {
 
 			ExternalContext context = FacesContext.getCurrentInstance()
 					.getExternalContext();
-			String userEmail = context.getUserPrincipal().getName();
+			String uname = context.getUserPrincipal().getName();
 
-			String endpointURL = "http://localhost:8180/ticket-esb/http/getUsuario/email/"
-					+ userEmail;
+			String endpointURL = "http://"+REST_HOSTNAME+":"+REST_PORT+"/rest/usuarios/nombre/"+ uname;
 
 			String strJson = new RestClientCallUtil()
 					.callJsonRemoteRest(endpointURL);
 
-			ObjectMapper mapper = new ObjectMapper();
-			usuario = mapper.readValue(strJson, UsuarioVO.class);
-
-			System.out.println("getUsuario");
+			
+			if(!strJson.equals("ERROR")){
+				ObjectMapper mapper = new ObjectMapper();
+				usuario = mapper.readValue(strJson, UsuarioVO.class);
+				logger.info("Datos de usuario cargados");
+			}else
+				logger.info("Error al cargar datos de usuario!");
 			
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return usuario;
 	}
@@ -69,7 +80,7 @@ public class UsuarioBean implements Serializable {
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		    session.invalidate();
 
-			System.out.println("Logout!");
+			logger.info("Logout!");
 
 			// ExternalContext ec = FacesContext.getCurrentInstance()
 			// .getExternalContext();

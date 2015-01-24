@@ -12,11 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("serial")
 @Entity
-@XmlRootElement
 @Table(name = "Sistema")
 @SequenceGenerator(name="id_sistema",sequenceName="sistema_id_seq")
 public class Sistema implements Serializable {
@@ -34,6 +32,9 @@ public class Sistema implements Serializable {
     
     @OneToMany(fetch=FetchType.EAGER, mappedBy="sistema")
     private List<VersionSistema> versionSistemas;
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="sistema")
+    private List<Ticket> tickets;
 
 	public Long getId() {
 		return id;
@@ -67,6 +68,12 @@ public class Sistema implements Serializable {
 		this.versionSistemas = versionSistemas;
 	}
 
-    
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
     
 }

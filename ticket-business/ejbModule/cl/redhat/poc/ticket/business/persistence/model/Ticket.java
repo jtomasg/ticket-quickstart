@@ -54,6 +54,10 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "prioridad_id",referencedColumnName="id", insertable = true, updatable = true)
     private Prioridad prioridad;
     
+    @ManyToOne
+    @JoinColumn(name = "sistema_id",referencedColumnName="id", insertable = false, updatable = true)
+    private Sistema sistema;
+    
     @OneToMany(fetch=FetchType.LAZY, mappedBy="ticket")
     private List<Comentario> comentarios;
 
@@ -137,5 +141,12 @@ public class Ticket implements Serializable {
 		this.prioridad = prioridad;
 	}
     
+	public Sistema getSistema() {
+		return sistema;
+	}
+
+	public void setSistema(Sistema sistema) {
+		this.sistema = sistema;
+	}
 
 }
